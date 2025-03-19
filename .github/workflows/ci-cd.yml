@@ -30,7 +30,7 @@ jobs:
           context: ./frontend  # Frontend directory as the build context
           file: ./frontend/Dockerfile  # Path to Dockerfile for frontend
           push: true
-          tags: your-dockerhub-username/devops-sample-app-frontend:${{ github.sha }}
+          tags: mukeshsaini7/devops-sample-app-frontend:${{ github.sha }}
 
       - name: Check backend Dockerfile existence
         run: |
@@ -42,7 +42,7 @@ jobs:
           context: ./backend  # Backend directory as the build context
           file: ./backend/Dockerfile  # Path to Dockerfile for backend
           push: true
-          tags: your-dockerhub-username/devops-sample-app-backend:${{ github.sha }}
+          tags: mukeshsaini7/devops-sample-app-backend:${{ github.sha }}
 
   deploy:
     runs-on: ubuntu-latest
