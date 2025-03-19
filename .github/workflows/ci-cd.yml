@@ -2,7 +2,7 @@ name: CI/CD Pipeline
 
 on:
   push:
-    branches: [ main ]  # Change to main if you want to push to the main branch
+    branches: [ main ]  # Adjust based on your branch name
 
 jobs:
   build:
@@ -20,13 +20,21 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
+      - name: Check frontend Dockerfile existence
+        run: |
+          ls -l ./frontend/Dockerfile  # Check if the Dockerfile exists in the frontend folder
+
       - name: Build and push Docker image for frontend
         uses: docker/build-push-action@v3
         with:
           context: ./frontend  # Frontend directory as the build context
           file: ./frontend/Dockerfile  # Path to Dockerfile for frontend
           push: true
-          tags: mukeshsaini7/devops-sample-app-frontend:latest
+          tags: your-dockerhub-username/devops-sample-app-frontend:${{ github.sha }}
+
+      - name: Check backend Dockerfile existence
+        run: |
+          ls -l ./backend/Dockerfile  # Check if the Dockerfile exists in the backend folder
 
       - name: Build and push Docker image for backend
         uses: docker/build-push-action@v3
@@ -34,7 +42,7 @@ jobs:
           context: ./backend  # Backend directory as the build context
           file: ./backend/Dockerfile  # Path to Dockerfile for backend
           push: true
-          tags: mukeshsaini7/devops-sample-app-backend:latest
+          tags: your-dockerhub-username/devops-sample-app-backend:${{ github.sha }}
 
   deploy:
     runs-on: ubuntu-latest
@@ -56,3 +64,5 @@ jobs:
         run: |
           kubectl apply -f k8s-manifests/deployment.yaml
           kubectl apply -f k8s-manifests/service.yaml
+          kubectl rollout status deployment/devops-sample-app-frontend --timeout=300s
+          kubectl rollout status deployment/devops-sample-app-backend --timeout=300s
