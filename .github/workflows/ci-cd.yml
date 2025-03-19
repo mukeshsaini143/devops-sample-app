@@ -26,7 +26,7 @@ jobs:
           context: ./frontend  # Frontend directory as the build context
           file: ./frontend/Dockerfile  # Path to Dockerfile for frontend
           push: true
-          tags: your-dockerhub-username/devops-sample-app-frontend:latest
+          tags: mukeshsaini7/devops-sample-app-frontend:latest
 
       - name: Build and push Docker image for backend
         uses: docker/build-push-action@v3
@@ -34,7 +34,7 @@ jobs:
           context: ./backend  # Backend directory as the build context
           file: ./backend/Dockerfile  # Path to Dockerfile for backend
           push: true
-          tags: your-dockerhub-username/devops-sample-app-backend:latest
+          tags: mukeshsaini7/devops-sample-app-backend:latest
 
   deploy:
     runs-on: ubuntu-latest
