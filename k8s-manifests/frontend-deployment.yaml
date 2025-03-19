@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-deployment
+  labels:
+    app: devops-sample-frontend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: devops-sample-frontend
+  template:
+    metadata:
+      labels:
+        app: devops-sample-frontend
+    spec:
+      containers:
+        - name: devops-sample-frontend
+          image: mukeshsaini7/devops-sample-frontend:latest
+          ports:
+            - containerPort: 80
+          resources:
+            limits:
+              cpu: "500m"  # Limits CPU to 0.5 cores
+              memory: "256Mi"  # Limits memory to 256MB
+            requests:
+              cpu: "250m"  # Requests 0.25 cores
+              memory: "128Mi"  # Requests 128MB
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 3
+            periodSeconds: 5

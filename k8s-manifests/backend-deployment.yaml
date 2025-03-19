@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: devops-sample-backend
+  template:
+    metadata:
+      labels:
+        app: devops-sample-backend
+    spec:
+      containers:
+        - name: devops-sample-backend
+          image: mukeshsaini7/devops-sample-backend:latest
+          ports:
+            - containerPort: 5000
+          env:
+            - name: MONGODB_URI
+              value: mongodb://admin:password@mongo-0.mongo.default.svc.cluster.local:27017/devopsdb

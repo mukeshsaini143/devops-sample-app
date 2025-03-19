@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service
+  labels:
+    app: devops-sample-frontend
+spec:
+  type: LoadBalancer
+  selector:
+    app: devops-sample-frontend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
