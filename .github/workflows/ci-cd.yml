@@ -60,7 +60,8 @@ jobs:
 
       - name: Install kubectl
         run: |
-          curl -sSL -o /usr/local/bin/kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.21.0/2021-08-18/bin/linux/amd64/kubectl
+          curl -sSL -o /usr/local/bin/kubectl https://dl.k8s.io/release/stable.txt
+          curl -LO "https://dl.k8s.io/release/$(cat stable.txt)/bin/linux/amd64/kubectl"
           chmod +x /usr/local/bin/kubectl
           kubectl version --client
 
