@@ -8,7 +8,7 @@ spec:
   replicas: 3
   selector:
     matchLabels:
-      app: devops-sample-app-frontend
+      app: devops-sample-frontend
   template:
     metadata:
       labels:
