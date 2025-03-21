@@ -8,11 +8,11 @@ spec:
   replicas: 3
   selector:
     matchLabels:
-      app: devops-sample-frontend
+      app: devops-sample-app-frontend  # ✅ Ensure this matches the template
   template:
     metadata:
       labels:
-        app: devops-sample-app-frontend
+        app: devops-sample-app-frontend  # ✅ This must match `matchLabels`
     spec:
       containers:
         - name: devops-sample-app-frontend
@@ -21,11 +21,11 @@ spec:
             - containerPort: 80
           resources:
             limits:
-              cpu: "500m"  # Limits CPU to 0.5 cores
-              memory: "256Mi"  # Limits memory to 256MB
+              cpu: "500m"
+              memory: "256Mi"
             requests:
-              cpu: "250m"  # Requests 0.25 cores
-              memory: "128Mi"  # Requests 128MB
+              cpu: "250m"
+              memory: "128Mi"
           livenessProbe:
             httpGet:
               path: /
