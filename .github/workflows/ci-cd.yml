@@ -20,27 +20,19 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Check frontend Dockerfile existence
-        run: |
-          ls -l ./frontend/Dockerfile  # Check if the Dockerfile exists in the frontend folder
-
       - name: Build and push Docker image for frontend
         uses: docker/build-push-action@v3
         with:
-          context: ./frontend  # Frontend directory as the build context
-          file: ./frontend/Dockerfile  # Path to Dockerfile for frontend
+          context: ./frontend
+          file: ./frontend/Dockerfile
           push: true
           tags: mukeshsaini7/devops-sample-app-frontend:${{ github.sha }}
-
-      - name: Check backend Dockerfile existence
-        run: |
-          ls -l ./backend/Dockerfile  # Check if the Dockerfile exists in the backend folder
 
       - name: Build and push Docker image for backend
         uses: docker/build-push-action@v3
         with:
-          context: ./backend  # Backend directory as the build context
-          file: ./backend/Dockerfile  # Path to Dockerfile for backend
+          context: ./backend
+          file: ./backend/Dockerfile
           push: true
           tags: mukeshsaini7/devops-sample-app-backend:${{ github.sha }}
 
@@ -60,8 +52,7 @@ jobs:
 
       - name: Install kubectl
         run: |
-          K8S_VERSION=$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)
-          curl -LO "https://dl.k8s.io/release/${K8S_VERSION}/bin/linux/amd64/kubectl"
+          curl -LO "https://s3.us-west-2.amazonaws.com/amazon-eks/1.27.0/2023-07-05/bin/linux/amd64/kubectl"
           chmod +x kubectl
           sudo mv kubectl /usr/local/bin/
           kubectl version --client
@@ -69,6 +60,12 @@ jobs:
       - name: Set up EKS Kubeconfig
         run: |
           aws eks --region ${{ secrets.AWS_REGION }} update-kubeconfig --name sample-eks-cluster
+
+      - name: Delete Existing Deployments (if any)
+        continue-on-error: true
+        run: |
+          kubectl delete deployment frontend-deployment --ignore-not-found=true
+          kubectl delete deployment backend-deployment --ignore-not-found=true
 
       - name: Deploy to Kubernetes
         run: |
@@ -79,5 +76,8 @@ jobs:
           kubectl apply -f k8s-manifests/mongo-service.yaml
           kubectl apply -f k8s-manifests/mongo-pvc.yaml
           kubectl apply -f k8s-manifests/mongo-statefulset.yaml
-          kubectl rollout status deployment/devops-sample-app-frontend --timeout=300s
-          kubectl rollout status deployment/devops-sample-app-backend --timeout=300s
+
+      - name: Verify Deployment Status
+        run: |
+          kubectl rollout status deployment/frontend-deployment --timeout=300s
+          kubectl rollout status deployment/backend-deployment --timeout=300s
