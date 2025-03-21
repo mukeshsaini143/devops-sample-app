@@ -3,20 +3,20 @@ kind: Deployment
 metadata:
   name: frontend-deployment
   labels:
-    app: devops-sample-frontend
+    app: devops-sample-app-frontend
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: devops-sample-frontend
+      app: devops-sample-app-frontend
   template:
     metadata:
       labels:
-        app: devops-sample-frontend
+        app: devops-sample-app-frontend
     spec:
       containers:
-        - name: devops-sample-frontend
-          image: mukeshsaini7/devops-sample-frontend:latest
+        - name: devops-sample-app-frontend
+          image: mukeshsaini7/devops-sample-app-frontend:latest
           ports:
             - containerPort: 80
           resources:
