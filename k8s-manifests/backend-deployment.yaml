@@ -15,6 +15,7 @@ spec:
       containers:
         - name: devops-sample-backend
           image: mukeshsaini7/devops-sample-backend:latest
+          imagePullPolicy: Always  # ✅ Ensures it always pulls the latest image
           ports:
             - containerPort: 5000
           env:
