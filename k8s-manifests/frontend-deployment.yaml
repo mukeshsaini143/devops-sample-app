@@ -17,6 +17,7 @@ spec:
       containers:
         - name: devops-sample-app-frontend
           image: mukeshsaini7/devops-sample-app-frontend:latest
+          imagePullPolicy: Always  # ✅ Ensures it always pulls the latest image
           ports:
             - containerPort: 80
           resources:
