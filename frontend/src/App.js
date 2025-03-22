@@ -14,7 +14,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>{message || 'Loading...'}</h1>
+        <h1>{message || 'hello world'}</h1>
       </header>
     </div>
   );
