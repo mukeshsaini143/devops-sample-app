@@ -106,6 +106,8 @@ jobs:
 
       - name: Deploy to Kubernetes
         run: |
+          kubectl apply -f k8s-manifests/storage-class.yaml
+          kubectl apply -f k8s-manifests/mongo-pv.yaml
           kubectl apply -f k8s-manifests/frontend-deployment.yaml
           kubectl apply -f k8s-manifests/frontend-service.yaml
           kubectl apply -f k8s-manifests/backend-deployment.yaml
