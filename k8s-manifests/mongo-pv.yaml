@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: mongo-pv
+spec:
+  capacity:
+    storage: 5Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: mongo-storage  # ✅ Matches StorageClass
+  csi:
+    driver: ebs.csi.aws.com
+    volumeHandle: <YOUR_EBS_VOLUME_ID>  # Replace with your actual EBS Volume ID
