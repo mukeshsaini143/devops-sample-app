@@ -8,11 +8,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - name: Use Node.js 16.x
+        uses: actions/setup-node@v3
         with:
           node-version: '16'
-          
+
       - name: Set Node.js OpenSSL Legacy Provider
         run: echo "NODE_OPTIONS=--openssl-legacy-provider" >> $GITHUB_ENV    
 
@@ -43,7 +43,8 @@ jobs:
 
       - name: Build frontend
         working-directory: ./frontend
-        run: npm run build
+        run: NODE_OPTIONS=--openssl-legacy-provider npm run build
+
 
       - name: Build backend
         working-directory: ./backend
