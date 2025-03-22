@@ -21,6 +21,8 @@ spec:
           volumeMounts:
             - name: mongo-storage
               mountPath: /data/db
+            - name: mongo-init-script
+              mountPath: /docker-entrypoint-initdb.d
           env:
             - name: MONGO_INITDB_DATABASE
               value: devopsdb
@@ -28,7 +30,10 @@ spec:
               value: admin
             - name: MONGO_INITDB_ROOT_PASSWORD
               value: password
-      volumes:  # ✅ Explicitly use the existing PVC
+      volumes:
         - name: mongo-storage
           persistentVolumeClaim:
-            claimName: mongo-pvc  # ✅ Make sure this matches the existing PVC
+            claimName: mongo-pvc
+        - name: mongo-init-script
+          configMap:
+            name: mongo-init-config
