@@ -46,7 +46,7 @@ jobs:
 
       - name: Build backend
         working-directory: ./backend
-        run: npm run build
+        run: echo "No build step required for backend"
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
